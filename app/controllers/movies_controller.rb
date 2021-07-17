@@ -7,7 +7,14 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    @all_ratings = Movie.all_ratings
+    @ratings_to_show = []
+    if !params[:ratings].nil?
+      params[:ratings].each do |key, value|
+        @ratings_to_show << key
+      end
+    end
+    @movies = Movie.with_ratings @ratings_to_show 
   end
 
   def new
@@ -44,4 +51,5 @@ class MoviesController < ApplicationController
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
+  
 end
