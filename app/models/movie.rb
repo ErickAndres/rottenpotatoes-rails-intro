@@ -4,11 +4,11 @@ class Movie < ActiveRecord::Base
     ['G','PG','PG-13','R']
   end
   
-  def self.with_ratings ratings_list
-    if ratings_list.nil?
-      self.all_ratings
+  def self.with_ratings ratings_list, orderby
+    if ratings_list.nil? || ratings_list.length == 0
+      Movie.where(:rating => self.all_ratings).order(orderby)
     end
-    Movie.where(:rating => ratings_list)
+    Movie.where(:rating => ratings_list).order(orderby)
   end
   
 end
